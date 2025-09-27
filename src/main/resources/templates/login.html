@@ -1,0 +1,27 @@
+<!Doctype html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultTemplate}">
+	
+	<body>
+	<div layout:fragment="content" class="container mt-5">
+		
+		<form th:action="@{/login/processLogin}" method="post" th:object="${loginModel}">
+		  <div class="mb-3">
+		    <label for="username" class="form-label">Username</label>
+		    <input th:field="*{username}" class="form-control" id="username" aria-describedby="usernameHelp">
+			<p class="alert alert-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"> Username Error</p>
+		  </div>
+		  
+		  <div class="mb-3">
+		    <label for="password" class="form-label">Password</label>
+		    <input th:field="*{password}" class="form-control" id="password">
+			<p class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"> Password Error </p>
+		  </div>
+		  <button type="submit" class="btn btn-primary">Login</button>
+		</form>
+		
+		</div>
+	</body>
+	
+</html>
