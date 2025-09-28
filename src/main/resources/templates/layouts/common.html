@@ -44,12 +44,16 @@
                                 <li><a class="dropdown-item" href="#">Separated link</a></li>
                             </ul>
                         </li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/login/}">Login</a></li>
+							<li class="nav-item">
+							<a class="nav-link" th:href="@{/register/}">Register</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <img th:src="@{/images/mylogo.png}" height="100px" class="my-3" />
+        <img th:src="@{/images/logo.png}" height="100px" class="my-3" />
         <h2 th:text="${title}" class="text-center">Default Title</h2>
     </div>
 

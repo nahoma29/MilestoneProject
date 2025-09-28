@@ -1,0 +1,41 @@
+<!Doctype html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultTemplate}">
+	
+
+	<div layout:fragment="content" class="container mt-5">
+	<form th:action="@{/register/processRegister}" method="post" th:object="${registerModel}" class="row g-3">
+	  <div class="col-md-6">
+	    <label for="firstName" class="form-label">First Name</label>
+	    <input th:field="*{firstName}" type="text" class="form-control" id="firstName" placeholder="First name">
+		<p class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"> </p>
+	  </div>
+
+	  <div class="col-md-6">
+	    <label for="lastName" class="form-label">Last Name</label>
+	    <input th:field="*{lastName}" class="form-control" id="lastName" placeholder="Last name">
+		<p class="alert alert-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"> </p>
+	  </div>
+
+	  <div class="col-12">
+	    <label for="username" class="form-label">Username</label>
+	    <input th:field="*{username}" class="form-control" id="username" placeholder="3–15 characters">
+		<p class="alert alert-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"> </p>
+	    <div class="form-text">Used to sign in.</div>
+	  </div>
+
+	  <div class="col-md-6">
+	    <label for="password" class="form-label">Password</label>
+	    <input th:field="*{password}" class="form-control" id="password" placeholder="8–15 characters">
+		<p class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"> </p>
+	  </div>
+
+	  <div class="col-12">
+	    <button type="submit" class="btn btn-primary">Create Account</button>
+	  </div>
+	</form>
+	</div>
+
+
+</html>

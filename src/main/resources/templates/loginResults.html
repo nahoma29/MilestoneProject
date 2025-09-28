@@ -1,8 +1,15 @@
 <!Doctype html>
-<html lang="en">
-    <head>
-		    <meta charset="UTF-8">
-	</head>
+<html xmlns:th="http://www.thymeleaf.org"  
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/defaultTemplate}">
+	
+
+	<div layout:fragment="content" class="container mt-5">
 	<body>
 		<h1> Login Results </h1>
+		<div  class="container" th:object="${loginModel}">
+            <p> UserName: <span th:text="*{username}"> </span> </p>
+            <p> Password: <span th:text="*{password}"> </span> </p>
+            
+            </div>
 	</body>
