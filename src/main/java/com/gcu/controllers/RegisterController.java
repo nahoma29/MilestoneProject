@@ -11,11 +11,20 @@ import com.gcu.models.RegisterModel;
 
 import jakarta.validation.Valid;
 
-
+/**
+ * Handles user registration (show form and process submission).
+ * No database is used in this milestone; behavior is demo-only.
+ */
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
 	
+	/**
+	 * Displays the registration form.
+	 * Adds a fresh RegisterModel to the model.
+	 * @param model the view model to receive attributes
+	 * @return the register view name (e.g., "register")
+	 */
 	@GetMapping("/")
 	public String display(Model model) {
 		
@@ -24,6 +33,7 @@ public class RegisterController {
 		
 		return "register";
 	}
+	
 	@PostMapping("/processRegister")
 	public String doRegister(@Valid RegisterModel registerModel, BindingResult bindngResult, Model model) {
 		if(bindngResult.hasErrors()) {

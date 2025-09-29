@@ -3,6 +3,7 @@ package com.gcu.models;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+
 public class RegisterModel {
 	@NotNull(message="First name is a required field.")
 	@Size(min=3, max=15, message="First name must be between 3 and 15 characters.")
