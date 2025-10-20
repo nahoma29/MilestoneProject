@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gcu.models.RegisterModel;
+import com.gcu.services.RegisterServiceInterface;
 
 import jakarta.validation.Valid;
 
@@ -18,6 +19,12 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
+	
+	private final RegisterServiceInterface registerService;
+	
+	public RegisterController(RegisterServiceInterface registerService) {
+		this.registerService = registerService;
+	}
 	
 	/**
 	 * Displays the registration form.
@@ -35,11 +42,21 @@ public class RegisterController {
 	}
 	
 	@PostMapping("/processRegister")
-	public String doRegister(@Valid RegisterModel registerModel, BindingResult bindngResult, Model model) {
-		if(bindngResult.hasErrors()) {
+	public String doRegister(@Valid RegisterModel registerModel, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()) {
 			model.addAttribute("title", "Register Form");
 			return "register";
 		}
+		boolean registered = registerService.register(registerModel.getFirstName(), registerModel.getLastName(), registerModel.getUsername(), registerModel.getPassword());
+		if(!registered) {
+			bindingResult.reject("registrationError", "Registration failed. Please try again.");
+			model.addAttribute("title", "Register Form");
+			model.addAttribute("registrationError", "Registration failed. Please try again.");
+			return "register";
+		}
+		
+			
+		
 		
 	    
 		return "redirect:/login/";
