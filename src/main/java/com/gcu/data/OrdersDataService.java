@@ -24,7 +24,7 @@ public class OrdersDataService implements OrdersDataInterface<ProductModel> {
 	}
 	@Override
 	public List<ProductModel> findAll() {
-		Iterable<OrderEntity> ordersEntity = ordersRepository.findAll();
+		var ordersEntity = ordersRepository.findAll();
 		List<ProductModel> models = new ArrayList<>();
 		for(OrderEntity item: ordersEntity) {
 			models.add(modelMapper.map(item, ProductModel.class));

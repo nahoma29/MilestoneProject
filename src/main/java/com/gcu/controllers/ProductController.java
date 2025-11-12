@@ -30,6 +30,7 @@ public class ProductController {
 		model.addAttribute("products", service.findAll());
 		return "productList";
 	}
+	
 	@GetMapping("/new")
 	public String newProduct(Model model) {
 		model.addAttribute("title", "New Product Form");
@@ -48,7 +49,8 @@ public class ProductController {
         
         return "redirect:/products/";
 	}
-	@PostMapping("/{id}/edit")
+	
+	@PostMapping("/{id}/update")
 	public String updateProduct(@PathVariable Long id,
 	                            @Valid ProductModel productModel,
 	                            BindingResult bindingResult,
@@ -58,17 +60,29 @@ public class ProductController {
 	        model.addAttribute("title", "Edit Product");
 	        return "productForm";
 	    }
-	    boolean ok = service.update(id, productModel); // calls updateById under the hood
+	    boolean ok = service.update(id, productModel); 
 	    ra.addFlashAttribute(ok ? "success" : "error",
 	                         ok ? "Product updated." : "Update failed or product not found.");
 	    return "redirect:/products/";
 	}
+	@GetMapping("/{id}/edit")
+	public String editProduct(@PathVariable Long id, Model model) {
+
+		model.addAttribute("title", "Edit Product");
+		model.addAttribute("product", service.findById(id));
+		return "productForm";
+	}
+
 	@GetMapping("/{id}/delete")
 	public String deleteProduct(@PathVariable Long id) {
 		service.delete(id);
 		
 		return "redirect:/products/";
 	}
+
+
+	
+	
 	
 
 }
