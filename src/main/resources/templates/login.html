@@ -1,26 +1,44 @@
-<!Doctype html>
-<html xmlns:th="http://www.thymeleaf.org" 
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/defaultTemplate}">
-	
-	<body>
-	<div layout:fragment="content" class="container mt-5">
-		
-		<form th:action="@{/login/processLogin}" method="post" th:object="${loginModel}">
-		  <div class="mb-3">
-		    <label for="username" class="form-label">Username</label>
-		    <input th:field="*{username}" class="form-control" id="username" aria-describedby="usernameHelp">
-			<p class="alert alert-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"> Username Error</p>
-		  </div>
-		  
-		  <div class="mb-3">
-		    <label for="password" class="form-label">Password</label>
-		    <input th:field="*{password}" class="form-control" id="password">
-			<p class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"> Password Error </p>
-		  </div>
-		  <button type="submit" class="btn btn-primary">Login</button>
-		</form>
-		</div>
-	</body>
-	
+
+<body>
+<div layout:fragment="content" class="container mt-5">
+
+    <!-- Error from Spring Security (?error in URL) -->
+    <div th:if="${param.error}" class="alert alert-danger">
+        Invalid username or password.
+    </div>
+
+    <!-- Logout message (?logout in URL) -->
+    <div th:if="${param.logout}" class="alert alert-success">
+        You have been logged out.
+    </div>
+
+    <!-- IMPORTANT: post to /login, and field names must be username/password -->
+    <form th:action="@{/login}" method="post">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text"
+                   class="form-control"
+                   id="username"
+                   name="username"
+                   required>
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password"
+                   class="form-control"
+                   id="password"
+                   name="password"
+                   required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+
+</div>
+</body>
 </html>
