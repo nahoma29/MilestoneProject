@@ -26,43 +26,50 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Main security filter chain
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        // Disable CSRF for simplicity (OK for class project)
-        http.csrf(csrf -> csrf.disable());
+        http
+            // Disable CSRF (OK for class project)
+            .csrf(csrf -> csrf.disable())
 
-        // What URLs are public vs protected
-        http.authorizeHttpRequests(auth -> auth
+            // Authorization rules
+            .authorizeHttpRequests(auth -> auth
+                // REST APIs require authentication (Basic Auth)
+                .requestMatchers("/api/**").authenticated()
+
                 // Public pages
                 .requestMatchers("/", "/login", "/register",
                                  "/css/**", "/images/**", "/js/**")
                 .permitAll()
-                // Everything else requires authentication
+
+                // Everything else
                 .anyRequest().authenticated()
-        );
+            )
 
-        // Form login configuration
-        http.formLogin(form -> form
-                .loginPage("/login")              // our custom login page
-                .usernameParameter("username")    // matches login.html
-                .passwordParameter("password")    // matches login.html
-                .defaultSuccessUrl("/", true)     // redirect here after login
+            .httpBasic(basic -> {})
+
+            // Form login for MVC pages
+            .formLogin(form -> form
+                .loginPage("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/", true)
                 .permitAll()
-        );
+            )
 
-        // Logout configuration
-        http.logout(logout -> logout
+            // Logout
+            .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout")
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .permitAll()
-        );
+            );
 
         return http.build();
     }
+
 
     // Hook AuthenticationManager to our UserBusinessService + BCrypt
     @Bean
